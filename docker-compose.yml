@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  go-api:
+    build: .
+    ports:
+      - "8080:3000"
+    volumes:
+      - shared-data:/shared
+    environment:
+      - PORT=3000
+    depends_on:
+      - python-predictor
+    restart: unless-stopped
+
+  python-predictor:
+    build: ./python-service
+    volumes:
+      - shared-data:/shared
+    restart: unless-stopped
+
+volumes:
+  shared-data:
